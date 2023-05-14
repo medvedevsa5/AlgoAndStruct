@@ -1,0 +1,19 @@
+(:key1 1321321314:key2 #c(1.0 -1.0):key3 "data":)
+(:key1 1321321315:key2 #c(1.0 -1.0):key3 "data":)
+(:key1 1321321316:key2 #c(1.0 -1.0):key3 "data":)
+(:key1 1321321317:key2 #c(1.0 -1.0):key3 "data":)
+(:key1 1321321317:key2 #c(1.5 -1.5):key3 "data":)
+(:key1 1321321317:key2 #c(1.5 -1.5):key3 "datastruct":)
+
+
+(:key2 #c(1.5 -1.5):key1 1321321317:key3 "mixed":)
+(:key3 "mixed":key1 1321321317:key2 #c(1.5 -1.5):)
+(:key2 #c(1.5 -1.5):key2 #c(1.5 -1.5):key3 "mixed":)
+
+
+(:key2 1321321317:key3 #c(1.5 -1.5):key1 "mixed":)
+(:keyONE 1321321317:key2 #c(1.5 -1.5):key3 "error":)
+(:key1 1321321317:key2 #k(1.5 -1.5):key3 "error":)
+(:key1 132139917:key2 #c(1.5 -1.5):key3 "error":)
+(:key1 1321317:key2 #c(1,5 -1.5):key3 "error":)
+(:key1 1321317:key2 #c(1.5, -1.5):key3 "error":)

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
+
 
 std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
 {
@@ -21,7 +23,6 @@ std::istream& operator>>(std::istream& in, DelimiterIO&& dest)
     }
     return in;
 }
-
 
 std::istream& operator>>(std::istream& in, StringIO&& dest)
 {
@@ -82,26 +83,45 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
     {
         return in;
     }
-    Polygon tmp;
 
-    std::string inputString = "";
-    std::getline(in, inputString);
-    std::istringstream ss(inputString);
+    int vertexCount = 0;
+    in >> vertexCount;
 
-    size_t vertexCount = 0;
-    ss >> vertexCount;
+    Polygon polygon = {};
+    Point point = {};
+    int counter = 0;
 
-    std::copy(
-        std::istream_iterator<Point>(ss),
-        std::istream_iterator<Point>(),
-        tmp.points
-    );
-
-    if (in && tmp.points.size() == vertexCount)
+    while (counter++ < vertexCount && in >> point)
     {
-        dest = tmp;
+        polygon.points.push_back(point);
     }
+
+    if ((polygon.points.size() == vertexCount) && in)
+    {
+        dest = polygon;
+    }
+    else
+    {
+        in.setstate(std::ios::failbit);
+    }
+
     return in;
+}
+
+std::ostream& operator<<(std::ostream& out, const Point& src)
+{
+    return out << '(' << src.x << ',' << src.y << ')';
+}
+
+std::ostream& operator<<(std::ostream& out, const Polygon& src)
+{
+    out << src.points.size();
+    for (auto& point : src.points)
+    {
+        out << ' ' << point;
+    }
+    out << '\n';
+    return out;
 }
 
 std::istream& operator>>(std::istream& in, IntIO&& dest)

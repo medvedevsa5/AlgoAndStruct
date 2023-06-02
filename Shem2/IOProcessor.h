@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _IO_PROCESSOR_
+#define _IO_PROCESSOR_
 
 #include <iostream>
 #include <cmath>
@@ -51,4 +53,7 @@ std::istream& operator>>(std::istream& in, IntIO&& dest);
 std::istream& operator>>(std::istream& in, Point& dest);
 std::istream& operator>>(std::istream& in, Polygon& dest);
 
-//std::ostream& operator<<(std::ostream& out, const DataStruct& dest);
+std::ostream& operator<<(std::ostream& out, const Point& src);
+std::ostream& operator<<(std::ostream& out, const Polygon& src);
+
+#endif // !_IO_PROCESSOR_

@@ -46,7 +46,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="tests.txt">
+    <Text Include="polygons.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="command_output.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="commands.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="polygon_output.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

@@ -13,7 +13,10 @@ void printError(ErrorType&& error)
 	switch (error)
 	{
 	case ArgumentError:
-		errorString = "Usage: programm.exe <PATH_TO_FILE>.";
+		errorString = "<INVALID COMMAND ARGUMENT>";
+		break;
+	case PolygonError:
+		errorString = "<INVALID POLYGON>";
 		break;
 	case FileNotOpenError:
 		errorString = "File can not be open.";

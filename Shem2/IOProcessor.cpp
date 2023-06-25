@@ -64,7 +64,7 @@ std::istream& operator>>(std::istream& in, Point& dest)
 
         in >> sep{ '(' };
         in >> num{ input.x };
-        in >> sep{ ',' };
+        in >> sep{ ';' };
         in >> num{ input.y };
         in >> sep{ ')' };
     }
@@ -84,21 +84,31 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
         return in;
     }
 
-    int vertexCount = 0;
-    in >> vertexCount;
+    Polygon tmp = {};
 
-    Polygon polygon = {};
-    Point point = {};
-    int counter = 0;
+    std::string inputString = "";
+    std::getline(in, inputString);
+    in.putback('\n');
+    std::istringstream ss(inputString);
 
-    while (counter++ < vertexCount && in >> point)
+    size_t vertexCount = 0;
+    ss >> vertexCount;
+
+    if (vertexCount < 3)
     {
-        polygon.points.push_back(point);
+        in.setstate(std::ios::failbit);
+        return in;
     }
 
-    if ((polygon.points.size() == vertexCount) && in)
+    std::copy(
+        std::istream_iterator<Point>(ss),
+        std::istream_iterator<Point>(),
+        std::back_inserter(tmp.points)
+    );
+
+    if (in && tmp.points.size() == vertexCount)
     {
-        dest = polygon;
+        dest = tmp;
     }
     else
     {
@@ -110,7 +120,7 @@ std::istream& operator>>(std::istream& in, Polygon& dest)
 
 std::ostream& operator<<(std::ostream& out, const Point& src)
 {
-    return out << '(' << src.x << ',' << src.y << ')';
+    return out << '(' << src.x << ';' << src.y << ')';
 }
 
 std::ostream& operator<<(std::ostream& out, const Polygon& src)
@@ -120,7 +130,6 @@ std::ostream& operator<<(std::ostream& out, const Polygon& src)
     {
         out << ' ' << point;
     }
-    out << '\n';
     return out;
 }
 

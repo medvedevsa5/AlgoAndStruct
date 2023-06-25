@@ -141,7 +141,10 @@
     <ClInclude Include="IOProcessor.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="tests.txt" />
+    <Text Include="commands.txt" />
+    <Text Include="command_output.txt" />
+    <Text Include="polygons.txt" />
+    <Text Include="polygon_output.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

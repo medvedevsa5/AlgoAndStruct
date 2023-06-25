@@ -11,8 +11,10 @@ struct Point
 
 struct Polygon
 {
-	std::vector< Point > points;
+	std::vector<Point> points;
 };
+
+bool operator==(const Polygon& left, const Polygon& right);
 
 double getArea(const Polygon& polygon);
 

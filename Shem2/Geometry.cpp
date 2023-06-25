@@ -15,10 +15,10 @@ double getArea(const Polygon& polygon)
 	
 	auto firstPoint = polygon.points.cbegin();
 	auto secondPoint = polygon.points.cbegin() + 1;
+	auto thirdPoint = polygon.points.cbegin() + 2;
 
-	double area = std::accumulate(polygon.points.cbegin() + 2, polygon.points.cend(), 0.0,
-		std::bind(
-			[&secondPoint](double& sum, const Point& thirdPoint, const auto& firstPoint)
+	double area = std::accumulate(thirdPoint, polygon.points.cend(), 0.0,
+			[&firstPoint, &secondPoint](double& sum, const Point& thirdPoint)
 			{
 				int firstVector[DIMENSION]
 				{
@@ -36,11 +36,33 @@ double getArea(const Polygon& polygon)
 				);
 				++secondPoint;
 				return sum;
-					
-			}, _1, _2, firstPoint)
+			}
 	);
 
 	return area;
+}
+
+bool operator==(const Polygon& left, const Polygon& right)
+{
+	if (left.points.size() != right.points.size())
+	{
+		return false;
+	}
+	else
+	{
+		auto rightIterator = right.points.cbegin();
+		size_t equalCount = std::count_if(left.points.cbegin(), left.points.cend(),
+			[&rightIterator](const Point& leftPoint)
+			{
+				bool isEqual =
+					leftPoint.x == rightIterator->x &&
+					leftPoint.y == rightIterator->y;
+				++rightIterator;
+				return isEqual;
+			}
+		);
+		return equalCount == left.points.size();
+	}
 }
 
 #undef X

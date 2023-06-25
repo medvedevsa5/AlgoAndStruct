@@ -1,15 +1,12 @@
 #ifndef _COMMANDER_
 #define _COMMANDER_
 
-#include <functional>
-#include <memory>
 #include "Geometry.h"
-
-
 
 class Commander
 {
 public:
+	// https://learn.microsoft.com/ru-ru/cpp/cpp/noexcept-cpp
 	Commander() noexcept;
 	Commander(const std::vector<Polygon>& vec);
 
@@ -33,18 +30,16 @@ public:
 	double maxVertexes();
 	double minArea();
 	double minVertexes();
-	double countEven();
-	double countOdd();
-	double countNum(int vertexCount);
+	size_t countEven();
+	size_t countOdd();
+	size_t countNum(int vertexCount);
 	//Дублирует всякое вхождение указанной в параметре фигуры.
-	int echo(Polygon& polygon);
-	int maxSeq(Polygon& polygon);
+	size_t echo(const Polygon& polygon);
+	size_t maxSeq(const Polygon& polygon);
 #pragma endregion
 
 private:
-	std::vector<Polygon>* polygons_;
-
-
+	std::vector<Polygon> polygons_;
 };
 
 #endif // _COMMANDER_

@@ -167,7 +167,9 @@ size_t Commander::echo(const Polygon& polygon)
 
 	int count = 0;
 
-	auto result = std::accumulate(polygons_.cbegin(), polygons_.cend(), std::vector<Polygon>(),
+	size_t matches = std::count(polygons_.cbegin(), polygons_.cend(), polygon);
+
+	auto result = std::accumulate(polygons_.cbegin(), polygons_.cend(), std::vector<Polygon>(polygons_.size() + matches),
 		[&equalToParam, &count](std::vector<Polygon>& result, const Polygon& current)
 		{
 			result.push_back(current);

@@ -9,34 +9,41 @@
 #define Y 1
 #define DIMENSION 2
 
+double TriangleArea::operator()(const Point& a, const Point& b, const Point& c)
+{
+	int firstVector[DIMENSION]
+	{
+		b.x - a.x,
+		b.y - a.y
+	};
+	int secondVector[DIMENSION]
+	{
+		c.x - a.x,
+		c.y - a.y
+	};
+	return 0.5 * std::abs(
+		firstVector[X] * secondVector[Y] -
+		firstVector[Y] * secondVector[X]
+	);
+}
+
+
 double getArea(const Polygon& polygon)
 {
 	using namespace std::placeholders;
 	
 	auto firstPoint = polygon.points.cbegin();
 	auto secondPoint = polygon.points.cbegin() + 1;
-	auto thirdPoint = polygon.points.cbegin() + 2;
 
-	double area = std::accumulate(thirdPoint, polygon.points.cend(), 0.0,
-			[&firstPoint, &secondPoint](double& sum, const Point& thirdPoint)
-			{
-				int firstVector[DIMENSION]
-				{
-					secondPoint->x - firstPoint->x,
-					secondPoint->y - firstPoint->y
-				};
-				int secondVector[DIMENSION]
-				{
-					thirdPoint.x - firstPoint->x,
-					thirdPoint.y - firstPoint->y
-				};
-				sum += 0.5 * std::abs(
-					firstVector[X] * secondVector[Y] -
-					firstVector[Y] * secondVector[X]
-				);
-				++secondPoint;
-				return sum;
-			}
+	auto bindedAreaFunc = std::bind(TriangleArea(), *firstPoint, _1, _2);
+
+	double area = std::accumulate(polygon.points.cbegin() + 2, polygon.points.cend(), 0.0,
+		[&bindedAreaFunc, &secondPoint](double& sum, const Point& currPoint)
+		{
+			sum += bindedAreaFunc(*secondPoint, currPoint);
+			++secondPoint;
+			return sum;
+		}
 	);
 
 	return area;
@@ -68,3 +75,4 @@ bool operator==(const Polygon& left, const Polygon& right)
 #undef X
 #undef Y
 #undef DIMENSION
+

@@ -14,6 +14,12 @@ struct Polygon
 	std::vector<Point> points;
 };
 
+class TriangleArea
+{
+public:
+	double operator()(const Point& a, const Point& b, const Point& c);
+};
+
 bool operator==(const Polygon& left, const Polygon& right);
 
 double getArea(const Polygon& polygon);

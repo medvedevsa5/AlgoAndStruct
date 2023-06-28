@@ -22,22 +22,27 @@ int main()
 	std::cout << "Enter polygon input file.\n";
 	std::cin >> input;
 	std::ifstream polygonInputStream(input);
+	if (!polygonInputStream)
+	{
+		std::cerr << "Error opening polygon input file";
+		return -1;
+	}
 
 	std::cout << "Enter command input file.\n";
 	std::cin >> input;
 	std::ifstream commandInputStream(input);
+	if (!polygonInputStream)
+	{
+		std::cerr << "Error opening command input file";
+		return -2;
+	}
 
 	std::ofstream polygonOutputStream("polygon_output.txt");
 	std::ofstream commandOutputStream("command_output.txt");
-
-	if (
-		!polygonInputStream	  ||
-		!commandInputStream	  ||
-		!polygonOutputStream  ||
-		!commandOutputStream )
+	if (!polygonOutputStream || !commandOutputStream)
 	{
-		std::cerr << "IO error.";
-		return -1;
+		std::cerr << "Error opening one of the output files.";
+		return -3;
 	}
 
 	std::vector<Polygon> inputVector = readStream(polygonInputStream);
@@ -94,15 +99,15 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 			in >> type;
 			if (type == "EVEN")
 			{
-				out << cmd.areaEven();
+				out << "AREA EVEN: " << cmd.areaEven();
 			}
 			else if (type == "ODD")
 			{
-				out << cmd.areaOdd();
+				out << "AREA ODD: " << cmd.areaOdd();
 			}
 			else if (type == "MEAN")
 			{
-				out << cmd.areaMean();
+				out << "AREA MEAN: " << cmd.areaMean();
 			}
 			else if (std::isdigit(type[0]))
 			{
@@ -113,7 +118,7 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 					continue;
 				}
 				int arg = std::stoi(type);
-				out << cmd.areaNum(arg);
+				out << "AREA " << arg << ": " << cmd.areaNum(arg);
 			}
 			else
 			{
@@ -126,11 +131,11 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 			in >> type;
 			if (type == "AREA")
 			{
-				out << cmd.maxArea();
+				out << "MAX AREA: " << cmd.maxArea();
 			}
 			else if (type == "VERTEXES")
 			{
-				out << cmd.maxVertexes();
+				out << "MAX VERTEXES: " << cmd.maxVertexes();
 			}
 			else
 			{
@@ -143,11 +148,11 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 			in >> type;
 			if (type == "AREA")
 			{
-				out << cmd.minArea();
+				out << "MIN AREA: " << cmd.minArea();
 			}
 			else if (type == "VERTEXES")
 			{
-				out << cmd.minVertexes();
+				out << "MIN VERTEXES: " << cmd.minVertexes();
 			}
 			else
 			{
@@ -160,11 +165,11 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 			in >> type;
 			if (type == "EVEN")
 			{
-				out << cmd.countEven();
+				out << "COUNT EVEN: " << cmd.countEven();
 			}
 			else if (type == "ODD")
 			{
-				out << cmd.countOdd();
+				out << "COUNT ODD: " << cmd.countOdd();
 			}
 			else if (isdigit(type[0]))
 			{
@@ -175,7 +180,7 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 					continue;
 				}
 				int arg = std::stoi(type);
-				out << cmd.countNum(arg);
+				out << "COUNT ODD " << arg << ": " << cmd.countNum(arg);
 			}
 			else
 			{
@@ -188,7 +193,7 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 			in >> inputPolygon;
 			if (in)
 			{
-				out << cmd.maxSeq(inputPolygon);
+				out << "MAXSEQ " << inputPolygon << ": " << cmd.maxSeq(inputPolygon);
 			}
 		}
 		else if (command == "ECHO")
@@ -196,7 +201,7 @@ std::vector<Polygon> handleCommands(std::istream& in, std::ostream& out, const s
 			in >> inputPolygon;
 			if (in)
 			{
-				out << cmd.echo(inputPolygon);
+				out << "ECHO " << inputPolygon << ": " << cmd.echo(inputPolygon);
 			}
 		}
 		else if (command.empty())

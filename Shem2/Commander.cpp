@@ -164,18 +164,18 @@ size_t Commander::echo(const Polygon& polygon)
 	using namespace std::placeholders;
 
 	auto equalToParam = std::bind(std::equal_to<Polygon>(), polygon, _1);
-
-	int count = 0;
-
+	
 	size_t matches = std::count(polygons_.cbegin(), polygons_.cend(), polygon);
 
-	auto result = std::accumulate(polygons_.cbegin(), polygons_.cend(), std::vector<Polygon>(polygons_.size() + matches),
-		[&equalToParam, &count](std::vector<Polygon>& result, const Polygon& current)
+	std::vector<Polygon> tmpVector;
+	tmpVector.reserve(polygons_.size() + matches);
+
+	auto result = std::accumulate(polygons_.cbegin(), polygons_.cend(), tmpVector,
+		[&equalToParam](std::vector<Polygon>& result, const Polygon& current)
 		{
 			result.push_back(current);
 			if (equalToParam(current))
 			{
-				count++;
 				result.push_back(current);
 			}
 			return result;
@@ -184,7 +184,7 @@ size_t Commander::echo(const Polygon& polygon)
 
 	polygons_.swap(result);
 
-	return count;
+	return matches;
 }
 
 size_t Commander::maxSeq(const Polygon& polygon)
